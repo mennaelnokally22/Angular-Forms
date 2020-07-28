@@ -1,5 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  FormBuilder,
+  Validators,
+} from "@angular/forms";
+
+import { debounceTime } from "rxjs/operators";
 
 @Component({
   selector: "app-reactive-form",
@@ -14,6 +21,12 @@ export class ReactiveFormComponent implements OnInit {
     this.infoForm = this.formBuilder.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],
       lastName: ["", [Validators.required, Validators.minLength(3)]],
+      emailGroup: this.formBuilder.group({
+        email: ["", [Validators.required, Validators.email]],
+        confirmEmail: ["", [Validators.required]],
+      }),
     });
+
+    this.infoForm.get("firstName").valueChanges.pipe(debounceTime(1000));
   }
 }
