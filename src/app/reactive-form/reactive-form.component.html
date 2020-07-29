@@ -43,21 +43,121 @@
         </span>
       </span>
     </div>
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="exampleInputEmail1"
-        aria-describedby="emailHelp"
-      />
-      <small id="emailHelp" class="form-text text-muted"
-        >We'll never share your email with anyone else.</small
-      >
+    <div class="form-group" formGroupName="emailGroup">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          formControlName="email"
+          [ngClass]="{
+            'is-invalid':
+              infoForm.get('emailGroup.email').touched &&
+              infoForm.get('emailGroup.email').invalid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="infoForm.get('emailGroup.email').errors?.required">
+            Please enter your email.
+          </span>
+          <span *ngIf="infoForm.get('emailGroup.email').errors?.email">
+            Please enter a correct email format.
+          </span>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="confEmail">Confirm email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="confEmail"
+          formControlName="confirmemail"
+          [ngClass]="{
+            'is-invalid':
+              (infoForm.get('emailGroup').errors &&
+                infoForm.get('emailGroup.confirmemail').touched) ||
+              (infoForm.get('emailGroup.confirmemail').touched &&
+                infoForm.get('emailGroup.confirmemail').invalid)
+          }"
+        />
+        <span class="invalid-feedback">
+          <span
+            *ngIf="infoForm.get('emailGroup.confirmemail').errors?.required"
+          >
+            Please enter your email.
+          </span>
+          <span
+            *ngIf="
+              infoForm.get('emailGroup').errors?.missMatch &&
+              !infoForm.get('emailGroup.confirmemail').errors?.required
+            "
+          >
+            Please make sure of the typed email.
+          </span>
+        </span>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" />
+    <div class="form-group" formGroupName="passwordGroup">
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          formControlName="password"
+          [ngClass]="{
+            'is-invalid':
+              infoForm.get('passwordGroup.password').touched &&
+              infoForm.get('passwordGroup.password').invalid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="infoForm.get('passwordGroup.password').errors?.required">
+            Please enter your password.
+          </span>
+          <span
+            *ngIf="infoForm.get('passwordGroup.password').errors?.minlength"
+          >
+            Password must be at least 6 characters.
+          </span>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="confPass">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="confPass"
+          formControlName="confirmpassword"
+          [ngClass]="{
+            'is-invalid':
+              (infoForm.get('passwordGroup').errors &&
+                infoForm.get('passwordGroup.confirmpassword').touched) ||
+              (infoForm.get('passwordGroup.confirmpassword').touched &&
+                infoForm.get('passwordGroup.confirmpassword').invalid)
+          }"
+        />
+        <span class="invalid-feedback">
+          <span
+            *ngIf="
+              infoForm.get('passwordGroup.confirmpassword').errors?.required
+            "
+          >
+            Please enter your confirmed password.
+          </span>
+          <span
+            *ngIf="
+              infoForm.get('passwordGroup').errors?.missMatch &&
+              !infoForm.get('passwordGroup.confirmpassword').errors?.required
+            "
+          >
+            Please make sure that your passwords are matched.
+          </span>
+        </span>
+      </div>
     </div>
     <div class="form-group form-check">
       <input type="checkbox" class="form-check-input" id="exampleCheck1" />
