@@ -6,6 +6,7 @@ import {
   Validators,
   ValidatorFn,
   AbstractControl,
+  FormArray,
 } from "@angular/forms";
 
 import { debounceTime } from "rxjs/operators";
@@ -40,6 +41,9 @@ export class ReactiveFormComponent implements OnInit {
   isSubmitted: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
+  get addresses(): FormArray {
+    return this.infoForm.get("addresses") as FormArray;
+  }
   ngOnInit() {
     this.isSubmitted = false;
 
@@ -63,6 +67,7 @@ export class ReactiveFormComponent implements OnInit {
       ),
       phoneCheck: false,
       phone: "",
+      addresses: this.formBuilder.array([this.generateAddressGroup()]),
     });
 
     this.infoForm.get("firstName").valueChanges.pipe(debounceTime(1000));
@@ -85,5 +90,16 @@ export class ReactiveFormComponent implements OnInit {
   submitInfoForm(): void {
     this.isSubmitted = true;
     console.log(this.infoForm.getRawValue());
+  }
+
+  generateAddressGroup(): FormGroup {
+    return this.formBuilder.group({
+      address: ["", Validators.required],
+      city: ["", Validators.required],
+    });
+  }
+
+  generateNewAddressGroup(): void {
+    this.addresses.push(this.generateAddressGroup());
   }
 }

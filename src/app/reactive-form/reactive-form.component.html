@@ -219,10 +219,46 @@
         </span>
       </span>
     </div>
+    <div formArrayName="addresses">
+      <div
+        class="form-group"
+        *ngFor="let address of addresses.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="form-group">
+          <label for="`add${{ i }}`">Address {{ i }}</label>
+          <input
+            type="text"
+            class="form-control"
+            id="`add${{ i }}`"
+            placeholder="1234 Main St"
+            formControlName="address"
+          />
+        </div>
+        <div class="form-group">
+          <label for="`city${{ i }}`">City</label>
+          <input
+            type="text"
+            class="form-control"
+            id="`city${{ i }}`"
+            placeholder="EX: New York"
+            formControlName="city"
+          />
+        </div>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="btn btn-danger d-block mb-2"
+      (click)="generateNewAddressGroup()"
+    >
+      Add another address
+    </button>
     <button type="submit" class="btn btn-primary" [disabled]="infoForm.invalid">
       Submit
     </button>
   </form>
+
   <div class="dropdown-divider"></div>
 
   <div class="card text-center" *ngIf="isSubmitted">
