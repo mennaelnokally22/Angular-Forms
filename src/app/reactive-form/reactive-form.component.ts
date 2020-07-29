@@ -4,9 +4,20 @@ import {
   FormControl,
   FormBuilder,
   Validators,
+  ValidatorFn,
+  AbstractControl,
 } from "@angular/forms";
 
 import { debounceTime } from "rxjs/operators";
+
+function controlsMatcher(controlGroupName: string): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: boolean } | null => {
+    const firstControl = control.get(controlGroupName);
+    const secControl = control.get(`confirm${controlGroupName}`);
+
+    return firstControl.value === secControl.value ? null : { missMatch: true };
+  };
+}
 
 @Component({
   selector: "app-reactive-form",
