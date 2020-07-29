@@ -226,13 +226,17 @@
         [formGroupName]="i"
       >
         <div class="form-group">
-          <label for="`add${{ i }}`">Address {{ i }}</label>
+          <label for="`add${{ i }}`">Address {{ i + 1 }}</label>
           <input
             type="text"
             class="form-control"
             id="`add${{ i }}`"
             placeholder="1234 Main St"
             formControlName="address"
+            [ngClass]="{
+              'is-invalid':
+                address.get('address').touched && address.get('address').invalid
+            }"
           />
         </div>
         <div class="form-group">
@@ -243,6 +247,10 @@
             id="`city${{ i }}`"
             placeholder="EX: New York"
             formControlName="city"
+            [ngClass]="{
+              'is-invalid':
+                address.get('city').touched && address.get('city').invalid
+            }"
           />
         </div>
       </div>
