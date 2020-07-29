@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="infoForm">
+  <form [formGroup]="infoForm" (ngSubmit)="submitInfoForm()">
     <div class="form-group">
       <label for="fName">First Name</label>
       <input
@@ -223,4 +223,20 @@
       Submit
     </button>
   </form>
+  <div class="dropdown-divider"></div>
+
+  <div class="card text-center" *ngIf="isSubmitted">
+    <div class="card-header">
+      Reactive Forms
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Submitted Form Values</h5>
+      <p class="card-text">
+        {{ infoForm.getRawValue() | json }}
+      </p>
+    </div>
+    <div class="card-footer text-muted">
+      Just now
+    </div>
+  </div>
 </div>
