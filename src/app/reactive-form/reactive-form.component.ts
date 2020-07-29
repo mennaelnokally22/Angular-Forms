@@ -58,8 +58,24 @@ export class ReactiveFormComponent implements OnInit {
         },
         { validators: controlsMatcher("password") }
       ),
+      phoneCheck: false,
+      phone: "",
     });
 
     this.infoForm.get("firstName").valueChanges.pipe(debounceTime(1000));
+
+    this.infoForm
+      .get("phoneCheck")
+      .valueChanges.subscribe((value) => this.setValidation());
+  }
+
+  setValidation(): void {
+    const phoneCheck = this.infoForm.get("phoneCheck").value;
+
+    if (phoneCheck)
+      this.infoForm.get("phone").setValidators(Validators.required);
+    else this.infoForm.get("phone").clearValidators();
+
+    this.infoForm.get("phone").updateValueAndValidity();
   }
 }
