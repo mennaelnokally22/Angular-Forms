@@ -43,6 +43,35 @@
         </span>
       </span>
     </div>
+
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input
+        type="number"
+        class="form-control"
+        id="age"
+        formControlName="age"
+        [ngClass]="{
+          'is-invalid':
+            infoForm.get('age').touched && infoForm.get('age').invalid
+        }"
+      />
+      <span class="invalid-feedback">
+        <span *ngIf="infoForm.get('age').errors?.required">
+          Please enter your age.
+        </span>
+        <span
+          *ngIf="
+            infoForm.get('age').errors?.age &&
+            !infoForm.get('age').errors?.required
+          "
+        >
+          The age name must be between {{ infoForm.get("age").errors?.min }} and
+          {{ infoForm.get("age").errors?.max }}.
+        </span>
+      </span>
+    </div>
+
     <div class="form-group" formGroupName="emailGroup">
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>

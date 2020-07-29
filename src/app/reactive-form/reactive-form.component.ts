@@ -20,6 +20,16 @@ function controlsMatcher(controlGroupName: string): ValidatorFn {
   };
 }
 
+function validateAge(min: number, max: number): ValidatorFn {
+  return (
+    control: AbstractControl
+  ): { [key: string]: boolean | number } | null => {
+    return isNaN(control.value) || control.value < min || control.value > max
+      ? { age: true, min, max }
+      : null;
+  };
+}
+
 @Component({
   selector: "app-reactive-form",
   templateUrl: "./reactive-form.component.html",
@@ -33,6 +43,7 @@ export class ReactiveFormComponent implements OnInit {
     this.infoForm = this.formBuilder.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],
       lastName: ["", [Validators.required, Validators.minLength(3)]],
+      age: [null, [Validators.required, validateAge(15, 90)]],
       emailGroup: this.formBuilder.group(
         {
           email: ["", [Validators.required, Validators.email]],
