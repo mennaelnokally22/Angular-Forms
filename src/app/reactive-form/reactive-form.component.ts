@@ -37,9 +37,12 @@ function validateAge(min: number, max: number): ValidatorFn {
 })
 export class ReactiveFormComponent implements OnInit {
   infoForm: FormGroup;
+  isSubmitted: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.isSubmitted = false;
+
     this.infoForm = this.formBuilder.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],
       lastName: ["", [Validators.required, Validators.minLength(3)]],
@@ -77,5 +80,10 @@ export class ReactiveFormComponent implements OnInit {
     else this.infoForm.get("phone").clearValidators();
 
     this.infoForm.get("phone").updateValueAndValidity();
+  }
+
+  submitInfoForm(): void {
+    this.isSubmitted = true;
+    console.log(this.infoForm.getRawValue());
   }
 }
