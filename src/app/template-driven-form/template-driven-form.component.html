@@ -6,8 +6,22 @@
         type="text"
         class="form-control"
         id="fName"
+        name="firstName"
         placeholder="First name"
+        [(ngModel)]="info.firstName"
+        #firstName="ngModel"
+        required
+        minlength="3"
+        [ngClass]="{ 'is-invalid': firstName.touched && firstName.invalid }"
       />
+      <span class="invalid-feedback">
+        <span *ngIf="firstName.errors?.required">
+          Please enter your first name.
+        </span>
+        <span *ngIf="firstName.errors?.minlength">
+          The first name must be at least 3 characters.
+        </span>
+      </span>
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
@@ -15,16 +29,53 @@
         type="email"
         class="form-control"
         id="exampleInputEmail1"
-        aria-describedby="emailHelp"
+        name="email"
+        [(ngModel)]="info.email"
+        #email="ngModel"
+        required
+        [ngClass]="{ 'is-invalid': email.touched && email.invalid }"
       />
       <small id="emailHelp" class="form-text text-muted"
         >We'll never share your email with anyone else.</small
       >
+      <span class="invalid-feedback">
+        <span *ngIf="email.errors?.required">
+          Please enter your email address.
+        </span>
+        <span *ngIf="email.errors?.email">
+          Please enter a valid email address.
+        </span>
+      </span>
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" />
+      <input
+        type="password"
+        class="form-control"
+        id="exampleInputPassword1"
+        name="password"
+        [(ngModel)]="info.password"
+        #password="ngModel"
+        required
+        minlength="6"
+        [ngClass]="{ 'is-invalid': password.touched && password.invalid }"
+      />
+      <span class="invalid-feedback">
+        <span *ngIf="password.errors?.required">
+          Please enter your first name.
+        </span>
+        <span *ngIf="password.errors?.minlength">
+          Password must be at least 6 characters.
+        </span>
+      </span>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="onSubmit(infoForm)"
+      [disabled]="infoForm.invalid"
+    >
+      Submit
+    </button>
   </form>
 </div>
